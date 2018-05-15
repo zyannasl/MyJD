@@ -11,7 +11,6 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.example.lenovo.myjingdong.R;
-import com.example.lenovo.myjingdong.view.activitys.HomePagerActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //去除标题
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+      requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         text = findViewById(R.id.welcome_text);
         handler.sendEmptyMessageDelayed(0,1000);
@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         View decorView = getWindow().getDecorView();
         int option=View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(option);
-        ActionBar supportActionBar = getSupportActionBar();
-        supportActionBar.hide();
+       ActionBar supportActionBar = getSupportActionBar();
+       supportActionBar.hide();
 
     }
 }

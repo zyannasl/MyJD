@@ -1,10 +1,10 @@
-package com.example.lenovo.myjingdong.model.bean;
+package com.example.lenovo.myjingdong.bean;
 
-public class LoginBean {
+public class RegBean {
 
     /**
-     * msg : 天呢！用户名和密码怎么都是空
-     * code : 1
+     * msg : 注册成功
+     * code : 0
      */
 
     private String msg;

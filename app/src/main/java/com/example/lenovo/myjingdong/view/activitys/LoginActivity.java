@@ -1,18 +1,25 @@
 package com.example.lenovo.myjingdong.view.activitys;
 
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lenovo.myjingdong.R;
+import com.example.lenovo.myjingdong.bean.LoginBean;
+import com.example.lenovo.myjingdong.presenter.LoginPresenter;
 import com.example.lenovo.myjingdong.view.interfaces.ILoginView;
 
-public class LoginActivity extends AppCompatActivity implements ILoginView,View.OnClickListener{
+public class LoginActivity extends BaseActivity implements ILoginView,View.OnClickListener{
 
     private TextView fanhui;
     private TextView zhanghaodenglu;
@@ -21,13 +28,22 @@ public class LoginActivity extends AppCompatActivity implements ILoginView,View.
     private EditText password;
     private Button login_button;
     private TextView zhuce;
-    private TextView gengduo;
+    private TextView wangjimima;
+    private ImageView weixin;
+    private ImageView qq;
+    private LoginPresenter loginPresenter;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
+        initData();
+    }
+
+    private void initData() {
+        loginPresenter = new LoginPresenter(this);
     }
 
     private void initView() {
@@ -41,18 +57,32 @@ public class LoginActivity extends AppCompatActivity implements ILoginView,View.
         password = findViewById(R.id.login_password);
         login_button = findViewById(R.id.login_button);
         login_button.setOnClickListener(this);
-        zhuce = findViewById(R.id.login_zhuce);
+        wangjimima = findViewById(R.id.login_wangjimima);
+        wangjimima.setOnClickListener(this);
+        zhuce=findViewById(R.id.login_zhuce);
         zhuce.setOnClickListener(this);
-        gengduo = findViewById(R.id.login_gengduo);
-        gengduo.setOnClickListener(this);
+        weixin = findViewById(R.id.login_weixin);
+        weixin.setOnClickListener(this);
+        qq = findViewById(R.id.login_qq);
+        qq.setOnClickListener(this);
 
     }
 
+
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(LoginBean loginBean) {
         Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(LoginActivity.this,HomePagerActivity.class);
-        startActivity(intent);
+        //记录登录状态
+     //获取sp对象
+        sp = getSharedPreferences("User", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString("mobile",loginBean.getData().getMobile());
+        edit.putString("password",loginBean.getData().getPassword());
+        edit.putString("token",loginBean.getData().getToken());
+        edit.putString("uid",loginBean.getData().getUid()+"");
+        edit.commit();
+
+
     }
 
     @Override
@@ -61,26 +91,44 @@ public class LoginActivity extends AppCompatActivity implements ILoginView,View.
     }
 
     @Override
+    public void mobileError() {
+        Toast.makeText(this, "手机号码输入错误", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void pwdError() {
+        Toast.makeText(this, "密码不得小于六位", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.login_X:
                 finish();
                 break;
-            case R.id.login_zhanghaodenglu:
 
-                break;
-            case R.id.login_shoujidenglu:
-
-                break;
             case R.id.login_button:
+                loginPresenter.login(name.getText().toString(),password.getText().toString());
+                Log.e("xxxxx",""+name.getText().toString());
+                //Log.e("xxxxxx",loginBean.getData().getMobile());
+                //跳转
+                Intent data = new Intent();
+                data.putExtra("mobile",name.getText().toString());
+                setResult(RESULT_OK,data);
+                finish();
 
                 break;
             case R.id.login_zhuce:
+                Intent intent1 = new Intent(LoginActivity.this, ZhuceActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.login_weixin:
 
                 break;
-            case R.id.login_gengduo:
+            case R.id.login_qq:
 
                 break;
+
         }
     }
 }

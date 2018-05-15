@@ -3,6 +3,16 @@
     package="com.example.lenovo.myjingdong">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +29,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activitys.HomePagerActivity" />
-        <activity android:name=".view.activitys.LoginActivity"></activity>
+        <activity android:name=".view.activitys.LoginActivity" />
+        <activity android:name=".view.activitys.ZhuceActivity" />
+        <activity android:name=".view.activitys.QueryActivity" />
+        <activity android:name=".custom.MyView" />
+        <activity android:name=".custom.FlowLayout" />
+        <activity
+            android:name=".view.activitys.SaoActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".view.activitys.MsgActivity" />
+        <activity android:name=".view.activitys.MyMsg"></activity>
     </application>
 
 </manifest>

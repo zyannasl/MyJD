@@ -22,4 +22,6 @@
         hjm:tab_selected_color="#000000"
         hjm:tab_unselected_color="@color/colorPrimary"></com.hjm.bottomtabbar.BottomTabBar>
 
+
+
 </RelativeLayout>
