@@ -3,7 +3,7 @@ package com.example.lenovo.myjingdong.presenter;
 import android.widget.Toast;
 
 import com.example.lenovo.myjingdong.bean.RegBean;
-import com.example.lenovo.myjingdong.model.impl.RegisterModel;
+import com.example.lenovo.myjingdong.model.RegisterModel;
 import com.example.lenovo.myjingdong.utils.Common;
 import com.example.lenovo.myjingdong.view.interfaces.IRegisterView;
 

@@ -32,5 +32,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.jph.takephoto:takephoto_library:3.0.0'
+
 
 }

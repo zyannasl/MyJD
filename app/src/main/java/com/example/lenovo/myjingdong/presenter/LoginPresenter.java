@@ -1,11 +1,9 @@
 package com.example.lenovo.myjingdong.presenter;
 
-import android.widget.Toast;
-
+import android.util.Log;
 import com.example.lenovo.myjingdong.bean.LoginBean;
-import com.example.lenovo.myjingdong.model.impl.LogingModelImpl;
+import com.example.lenovo.myjingdong.model.LogingModelImpl;
 import com.example.lenovo.myjingdong.utils.Common;
-import com.example.lenovo.myjingdong.utils.Constant;
 import com.example.lenovo.myjingdong.view.interfaces.ILoginView;
 
 import java.io.IOException;
@@ -32,6 +30,7 @@ public class LoginPresenter {
            @Override
            public void success(LoginBean loginBean) {
                iLoginView.loginSuccess(loginBean);
+              Log.e("------",loginBean.getData().getMobile()+"");
            }
 
            @Override

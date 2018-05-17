@@ -1,4 +1,4 @@
-package com.example.lenovo.myjingdong.model.impl;
+package com.example.lenovo.myjingdong.model;
 
 import com.example.lenovo.myjingdong.bean.RegBean;
 import com.example.lenovo.myjingdong.utils.Constant;

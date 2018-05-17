@@ -20,7 +20,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name=".utils.ContextApplication">
         <activity android:name=".view.activitys.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +39,11 @@
             android:name=".view.activitys.SaoActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".view.activitys.MsgActivity" />
-        <activity android:name=".view.activitys.MyMsg"></activity>
+        <activity android:name=".view.activitys.MyMsg" />
+        <activity android:name=".view.update.UpdateImger" />
+        <activity android:name=".view.update.UpdateNicheng" />
+        <activity android:name=".view.update.UpdateSex" />
+        <activity android:name=".view.update.UpdateBrithday"></activity>
     </application>
 
 </manifest>

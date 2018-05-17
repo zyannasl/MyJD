@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.lenovo.myjingdong.R;
 import com.example.lenovo.myjingdong.bean.LoginBean;
 import com.example.lenovo.myjingdong.presenter.LoginPresenter;
+import com.example.lenovo.myjingdong.view.fragments.Mine;
 import com.example.lenovo.myjingdong.view.interfaces.ILoginView;
 
 public class LoginActivity extends BaseActivity implements ILoginView,View.OnClickListener{
@@ -71,16 +72,19 @@ public class LoginActivity extends BaseActivity implements ILoginView,View.OnCli
 
     @Override
     public void loginSuccess(LoginBean loginBean) {
+       Log.e("------------",loginBean.getData().getMobile()+"");
         Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
-        //记录登录状态
-     //获取sp对象
-        sp = getSharedPreferences("User", Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit = sp.edit();
-        edit.putString("mobile",loginBean.getData().getMobile());
-        edit.putString("password",loginBean.getData().getPassword());
-        edit.putString("token",loginBean.getData().getToken());
-        edit.putString("uid",loginBean.getData().getUid()+"");
-        edit.commit();
+         //记录登录状态
+                //获取sp对象
+                sp = getSharedPreferences("User", Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = sp.edit();
+                edit.putString("mobile",loginBean.getData().getMobile());
+                edit.putString("password",loginBean.getData().getPassword());
+                edit.putString("token",loginBean.getData().getToken());
+                edit.putString("uid",loginBean.getData().getUid()+"");
+                edit.putBoolean("have",true);
+                edit.commit();
+
 
 
     }
@@ -110,11 +114,9 @@ public class LoginActivity extends BaseActivity implements ILoginView,View.OnCli
             case R.id.login_button:
                 loginPresenter.login(name.getText().toString(),password.getText().toString());
                 Log.e("xxxxx",""+name.getText().toString());
-                //Log.e("xxxxxx",loginBean.getData().getMobile());
                 //跳转
-                Intent data = new Intent();
-                data.putExtra("mobile",name.getText().toString());
-                setResult(RESULT_OK,data);
+                Intent data = new Intent(LoginActivity.this,HomePagerActivity.class);
+                startActivity(data);
                 finish();
 
                 break;
