@@ -1,6 +1,7 @@
 package com.example.lenovo.myjingdong.custom;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.example.lenovo.myjingdong.R;
 import com.example.lenovo.myjingdong.adapters.MyAdapter;
 import com.example.lenovo.myjingdong.sql.Dao;
+import com.example.lenovo.myjingdong.view.activitys.SelectActivity;
 
 import java.util.List;
 

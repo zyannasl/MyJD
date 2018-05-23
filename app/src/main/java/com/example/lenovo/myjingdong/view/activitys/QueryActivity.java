@@ -1,20 +1,15 @@
 package com.example.lenovo.myjingdong.view.activitys;
 
+import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lenovo.myjingdong.R;
-import com.example.lenovo.myjingdong.bean.QueryBean;
 import com.example.lenovo.myjingdong.custom.FlowLayout;
 import com.example.lenovo.myjingdong.custom.MyView;
-import com.example.lenovo.myjingdong.view.interfaces.IQueryView;
-
-import java.util.List;
 
 public class QueryActivity extends BaseActivity{
     private String mNames[] = {
@@ -37,6 +32,9 @@ public class QueryActivity extends BaseActivity{
             @Override
             public void onSearchClick(String keywords) {
                 Toast.makeText(QueryActivity.this, ""+keywords, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(QueryActivity.this, SelectActivity.class);
+                intent.putExtra("keywords",keywords);
+                startActivity(intent);
             }
 
             @Override

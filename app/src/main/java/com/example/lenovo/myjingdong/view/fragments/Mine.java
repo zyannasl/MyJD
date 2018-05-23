@@ -42,11 +42,7 @@ public class Mine extends Fragment implements View.OnClickListener{
         SharedPreferences sp = getContext().getSharedPreferences("User", Context.MODE_PRIVATE);
         have = sp.getBoolean("have", false);
         mobile = sp.getString("mobile", "登录/注册 >");
-        Log.e("zy",mobile+"");
         login.setText(mobile);
-        Log.e("have",have+"");
-
-
     }
 
     @Override

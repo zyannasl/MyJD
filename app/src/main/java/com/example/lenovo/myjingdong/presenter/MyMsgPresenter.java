@@ -23,7 +23,6 @@ public class MyMsgPresenter {
         myMsgModel.setiMyMsgModel(new MyMsgModel.IMyMsgModel() {
             @Override
             public void success(UserMsgBean userMsgBean) {
-                Log.e("2",userMsgBean.getData().getMobile()+"");
                 iMyMsg.userMsg(userMsgBean);
             }
 

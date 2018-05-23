@@ -2,7 +2,7 @@ package com.example.lenovo.myjingdong.bean;
 
 import java.util.List;
 
-public class QueryBean {
+public class SelectBean {
 
     /**
      * msg : 查询成功
@@ -71,7 +71,8 @@ public class QueryBean {
         private String images;
         private int itemtype;
         private int pid;
-        private int price;
+
+        private String price;
         private int pscid;
         private int salenum;
         private int sellerid;
@@ -126,12 +127,13 @@ public class QueryBean {
             this.pid = pid;
         }
 
-        public int getPrice() {
+        public String getPrice() {
             return price;
         }
 
-        public void setPrice(int price) {
+        public String setPrice(String price) {
             this.price = price;
+            return price;
         }
 
         public int getPscid() {

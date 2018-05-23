@@ -2,6 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     android:background="@color/colorPrimary">
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/classify_zuo"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:background="#00ffff"
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    <ExpandableListView
+        android:id="@+id/classify_you"
+        android:layout_width="0dp"
+        android:layout_weight="8"
+        android:layout_height="match_parent"></ExpandableListView>
 </LinearLayout>

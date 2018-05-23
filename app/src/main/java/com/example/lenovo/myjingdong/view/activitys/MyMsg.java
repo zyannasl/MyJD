@@ -1,16 +1,17 @@
 package com.example.lenovo.myjingdong.view.activitys;
 
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.lenovo.myjingdong.R;
 import com.example.lenovo.myjingdong.bean.UserMsgBean;
@@ -29,8 +29,7 @@ import com.example.lenovo.myjingdong.view.interfaces.IMyMsgView;
 import com.example.lenovo.myjingdong.view.update.UpdateBrithday;
 import com.example.lenovo.myjingdong.view.update.UpdateNicheng;
 import com.example.lenovo.myjingdong.view.update.UpdateSex;
-import com.jph.takephoto.app.TakePhoto;
-import com.jph.takephoto.app.TakePhotoActivity;
+
 
 import java.io.File;
 
@@ -46,7 +45,10 @@ public class MyMsg extends BaseActivity implements View.OnClickListener,IMyMsgVi
     private MyMsgPresenter myMsgPresenter;
     private PopupWindow mPopWindow;
     private String path= Environment.getExternalStorageDirectory()+"/jingdong.png";
-
+    private static final int IMAGE_REQUEST_CODE = 0;
+    private static final int CAMERA_REQUEST_CODE = 1;
+    private static final int RESIZE_REQUEST_CODE = 2;
+    private static final String IMAGE_FILE_NAME = "header.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,7 @@ public class MyMsg extends BaseActivity implements View.OnClickListener,IMyMsgVi
 
     }
 
+
     /**
      * 点击事件
      * @param v
@@ -121,21 +124,104 @@ public class MyMsg extends BaseActivity implements View.OnClickListener,IMyMsgVi
                 startActivity(intent);
                 break;
             case R.id.xiangji:
-                Intent xiangji = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                xiangji.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(path)));
-                startActivityForResult(xiangji,100);
-                mPopWindow.dismiss();
+                if (isSdcardExisting()) {
+                    Intent cameraIntent = new Intent(
+                            "android.media.action.IMAGE_CAPTURE");
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, getImageUri());
+                    cameraIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+                } else {
+                    Toast.makeText(v.getContext(), "请插入sd卡", Toast.LENGTH_LONG)
+                            .show();
+                }
+                Toast.makeText(this, "打开相机", Toast.LENGTH_SHORT).show();
+
+                    mPopWindow.dismiss();
+
                 break;
             case R.id.xiangce:
-                Intent xiangce = new Intent(Intent.ACTION_PICK);
-                xiangce.setType("image/*");
-                startActivityForResult(xiangce,1000);
-                mPopWindow.dismiss();
+                Intent intent1 = new Intent(Intent.ACTION_GET_CONTENT);
+                intent1.addCategory(Intent.CATEGORY_OPENABLE);
+                intent1.setType("image/*");
+                startActivityForResult(intent1, IMAGE_REQUEST_CODE);
+                Toast.makeText(this, "打开相册", Toast.LENGTH_SHORT).show();
+                    mPopWindow.dismiss();
+
                 break;
             case R.id.quxiao:
                 mPopWindow.dismiss();
                 break;
 
+        }
+    }
+    //获取图片的URI
+    private Uri  getImageUri() {
+        return Uri.fromFile(new File(Environment.getExternalStorageDirectory(),
+                IMAGE_FILE_NAME));
+    }
+    //该方法是用于放回相应结果的
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==RESULT_OK){
+            switch (requestCode) {
+                case IMAGE_REQUEST_CODE:
+                    resizeImage(data.getData());
+                    break;
+                case CAMERA_REQUEST_CODE:
+                    if(isSdcardExisting()){
+                        resizeImage(getImageUri());
+                    }else{
+                        Toast.makeText(MyMsg.this, "未找到存储卡，无法存储照片！",
+                                Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case RESIZE_REQUEST_CODE:
+                    if (data != null) {
+                        showResizeImage(data);
+                    }
+                    break;
+
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    private void showResizeImage(Intent data) {
+        Bundle extras = data.getExtras();
+        if (extras != null) {
+            Bitmap photo = extras.getParcelable("data");
+            Drawable drawable = new BitmapDrawable(photo);
+            image.setImageDrawable(drawable);
+
+        }
+    }
+
+    /**
+     * 对图片进行处理
+     * @param uri
+     */
+    private void resizeImage(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 150);
+        intent.putExtra("outputY", 150);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, RESIZE_REQUEST_CODE);
+    }
+
+    /**
+     * 判断sd卡是否存在
+     *
+     * @return
+     */
+    private boolean isSdcardExisting() {
+        final String state = Environment.getExternalStorageState();
+        if (state.equals(Environment.MEDIA_MOUNTED)) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -204,7 +290,7 @@ public class MyMsg extends BaseActivity implements View.OnClickListener,IMyMsgVi
      * @param resultCode
      * @param data
      */
-    @Override
+  /*  @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==100&&resultCode==RESULT_OK){
@@ -222,5 +308,21 @@ public class MyMsg extends BaseActivity implements View.OnClickListener,IMyMsgVi
             Bitmap bitmap = data.getParcelableExtra("data");
             image.setImageBitmap(bitmap);
         }
-    }
+        if(requestCode==1000&&resultCode==RESULT_OK){
+            Uri uri=data.getData();
+            Intent intent = new Intent("com.android.camera.action.CROP");
+            intent.setDataAndType(uri,"image/*");
+            intent.putExtra("aspectX",1);
+            intent.putExtra("aspectY",1);
+            intent.putExtra("outputX",250);
+            intent.putExtra("outputY",250);
+            intent.putExtra("return-data",true);
+            startActivityForResult(intent,2000);
+
+        }
+        if(requestCode==2000&&resultCode==RESULT_OK){
+            Bitmap bitmap = data.getParcelableExtra("data");
+            image.setImageBitmap(bitmap);
+        }
+    }*/
 }

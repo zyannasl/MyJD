@@ -36,7 +36,6 @@ public class LogingModelImpl{
             public void getData(String result) {
                 Gson gson = new Gson();
                 LoginBean loginBean = gson.fromJson(result, LoginBean.class);
-                Log.e("loginBean",loginBean.getData().getMobile());
                 iLoginModel.success(loginBean);
 
             }

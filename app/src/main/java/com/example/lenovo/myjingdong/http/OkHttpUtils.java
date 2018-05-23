@@ -27,7 +27,7 @@ public class OkHttpUtils {
     private ICallback iCallback;
 
 
-    private OkHttpUtils(Context context) {
+    public OkHttpUtils(Context context) {
         this.context = context;
         handler = new Handler() {
             @Override

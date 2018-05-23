@@ -6,13 +6,21 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
+
 import com.example.lenovo.myjingdong.R;
+import com.example.lenovo.myjingdong.adapters.JiuGongGeAdapter;
+import com.example.lenovo.myjingdong.bean.JiuGongGeBean;
+import com.example.lenovo.myjingdong.presenter.HomeFragmentPresenter;
 import com.example.lenovo.myjingdong.utils.GlideImageLoader;
 import com.example.lenovo.myjingdong.view.activitys.MsgActivity;
 import com.example.lenovo.myjingdong.view.activitys.QueryActivity;
@@ -31,6 +39,9 @@ public class Home extends Fragment implements View.OnClickListener,IHomeFragment
     private ImageView selectIv;
     private ImageView msg;
     private ImageView guanggao;
+    private HomeFragmentPresenter homeFragmentPresenter;
+    private RecyclerView recyclerView;
+    private ViewFlipper filpper;
 
     @Nullable
     @Override
@@ -41,6 +52,8 @@ public class Home extends Fragment implements View.OnClickListener,IHomeFragment
         selectIv = view.findViewById(R.id.select_iv);
         msg = view.findViewById(R.id.msg_iv);
         guanggao = view.findViewById(R.id.home_img);
+        recyclerView = view.findViewById(R.id.home_recycler);
+        filpper = view.findViewById(R.id.view_filpper);
 
         return view;
     }
@@ -52,6 +65,7 @@ public class Home extends Fragment implements View.OnClickListener,IHomeFragment
         onClickAll();
         //轮播图
         initData();
+
 
     }
 
@@ -72,6 +86,11 @@ public class Home extends Fragment implements View.OnClickListener,IHomeFragment
         banner.setImages(list);
         //banner设置方法全部调用完毕时最后调用
         banner.start();
+        homeFragmentPresenter = new HomeFragmentPresenter(this);
+        //九宫格
+        homeFragmentPresenter.jiuGongGeData();
+        //跑马灯
+        filpper.addView(View.inflate(getContext(), R.layout.item_paomadeng, null));
     }
 
     /**
@@ -134,7 +153,10 @@ public class Home extends Fragment implements View.OnClickListener,IHomeFragment
      * 九宫格接口回调方法
      */
     @Override
-    public void showJGG() {
+    public void showJGG(JiuGongGeBean jiuGongGeBean) {
+        JiuGongGeAdapter jiuGongGeAdapter = new JiuGongGeAdapter(getContext(),jiuGongGeBean.getData());
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2, LinearLayoutManager.HORIZONTAL,false));
+        recyclerView.setAdapter(jiuGongGeAdapter);
 
     }
 }

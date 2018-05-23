@@ -72,14 +72,12 @@ public class LoginActivity extends BaseActivity implements ILoginView,View.OnCli
 
     @Override
     public void loginSuccess(LoginBean loginBean) {
-       Log.e("------------",loginBean.getData().getMobile()+"");
         Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
          //记录登录状态
                 //获取sp对象
                 sp = getSharedPreferences("User", Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = sp.edit();
                 edit.putString("mobile",loginBean.getData().getMobile());
-                edit.putString("password",loginBean.getData().getPassword());
                 edit.putString("token",loginBean.getData().getToken());
                 edit.putString("uid",loginBean.getData().getUid()+"");
                 edit.putBoolean("have",true);
@@ -113,7 +111,6 @@ public class LoginActivity extends BaseActivity implements ILoginView,View.OnCli
 
             case R.id.login_button:
                 loginPresenter.login(name.getText().toString(),password.getText().toString());
-                Log.e("xxxxx",""+name.getText().toString());
                 //跳转
                 Intent data = new Intent(LoginActivity.this,HomePagerActivity.class);
                 startActivity(data);

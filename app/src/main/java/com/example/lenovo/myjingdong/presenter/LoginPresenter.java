@@ -30,7 +30,6 @@ public class LoginPresenter {
            @Override
            public void success(LoginBean loginBean) {
                iLoginView.loginSuccess(loginBean);
-              Log.e("------",loginBean.getData().getMobile()+"");
            }
 
            @Override
